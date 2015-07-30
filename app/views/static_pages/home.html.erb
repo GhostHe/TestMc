@@ -1,0 +1,22 @@
+<div id="home_flash_notice">
+<% if flash[:notice].present? %>
+  <p><%= flash[:notice]%></p>
+  <a style='width: 32px;height: 32px;position: absolute;float: left;background: transparent url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/quickdelete_9c14b01a.png") no-repeat scroll 10px 10px;' onclick="hidden_notice(this)" href="javascript:;"></a>
+  <% end%>
+</div>
+<% if current_user %>
+  <h1 class="title">Hello，Welcome!</h1>
+  <%= render 'shared/micropost_form'%>
+  <%= render 'microposts/micropost'%>
+<% else %>
+  <div class="home">
+      <h1 class="home_h1">Home Page</h1>
+        <p class="home_p"><%= link_to "sign up now!" , signup_path %></p>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    function hidden_notice(obj){
+      document.getElementById("home_flash_notice").style.display="none";
+    }
+</script>

@@ -1,0 +1,22 @@
+<h1 class="title">用户注册</h1>
+<div class="signup_out">
+  <div class="signup_in">
+    <%= form_for @user do |f| %>
+
+      <li><%= f.label :name ,"用户名:"%></li>
+      <li><%= f.text_field :name ,:class=>"inputinput" %></li>
+
+      <li><%= f.label :email ,"Email:"%></li>
+      <li><%= f.email_field :email ,:class=>"inputinput" %></li>
+
+      <li><%= f.label :password ,"输入密码:"%></li>
+      <li><%= f.password_field :password ,:class=>"inputinput" %></li>
+
+      <li><%= f.label :password_confirmation ,"确认密码:"%></li>
+      <li><%= f.password_field :password_confirmation ,:class=>"inputinput" %></li>
+
+      <%= f.submit "注册" ,:class=>"signup_button"%>
+
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+class MicropostsController < ApplicationController
+
+ before_action :correct_user, only: :destroy
+
+  def create
+    @micropost = Micropost.new(micropost_params)
+    @micropost.save
+    redirect_to root_path
+  end
+
+  def destroy
+
+    @micropost.destroy
+    flash[:notice] = "删除成功！"
+    redirect_to root_path
+  end
+
+
+  def is_goods
+    good = Good.find_by_user_id_and_micropost_id(params[:user_id],params[:micropost_id])
+    micropost = Micropost.find_by_id params[:micropost_id]
+    p good ,params[:type]
+    if params[:type]==0 or good
+      good.destroy
+      micropost.is_good= micropost.is_good-1 if micropost and micropost.is_good.to_i>0
+    else
+      Good.transaction do
+        Good.create(:user_id=>params[:user_id],:micropost_id=>params[:micropost_id])
+        micropost.is_good= micropost.is_good.to_i+1
+      end
+    end
+      micropost.save
+      render :json => {:is_goods=> micropost.is_good}
+  end
+
+  private
+    def micropost_params
+      params.require(:micropost).permit(:content,:user_id)
+    end
+
+    def correct_user
+      @micropost = current_user.microposts.find_by(id: params[:id])
+      redirect_to root_path if @micropost.nil?
+    end
+
+end
