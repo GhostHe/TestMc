@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get 'signup'=> 'users#new'
 
+
   get 'login'=> 'users#login'
 
   post 'login'=> 'users#create_login_session'

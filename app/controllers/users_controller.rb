@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 include UsersHelper
+
+
   def new
     @user = User.new
   end
@@ -13,6 +15,10 @@ include UsersHelper
     else
       render 'users/new'
     end
+  end
+
+  def show
+
   end
 
   def login
@@ -44,5 +50,6 @@ include UsersHelper
       params.require(:user).permit(:name,:email,:password,
                                    :password_confrimation)
     end
+
 
 end

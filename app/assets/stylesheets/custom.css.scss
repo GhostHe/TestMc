@@ -62,9 +62,18 @@ footer ul li {
   margin-left: 15px;
 }
 
+.choose_button {
+  text-align: center;
+}
+
+.choose_word {
+  text-align: center;
+  font-size: 30px;
+  color: gray;
+}
+
 .micropost_input {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0px auto;
   border: 2px #ddd;
   border-style: none;
   width: 650px;
@@ -82,6 +91,7 @@ footer ul li {
   margin-top: 50px;
   color: gray;
 }
+
 
 .signup_out,.login_out{
   margin-left: auto;
@@ -113,47 +123,34 @@ footer ul li {
 }
 
 .micropost_comment_out {
-  border:2px solid gray;
-}
-
-.micropost_comment_middle {
-  border:2px solid gray;
-  width: 700px;
-  margin-bottom: 40px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #9cc;
+  margin: 2px auto;
 }
 
 .micropost_comment_in {
-  border: 2px solid blue;
-  width: 650px;
-  margin-top: 10px;
-  margin-left: 10px;
+  width: 670px;
+  margin: 10px auto;
   list-style-type: none;
   background-color: #cff;
 }
 
+.head_name{
+  font-size: 10px;
+  margin: 2px 0px 2px 4px;
+}
+
 .micropost_word {
   font-size:20px;
-  margin-left: 10px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-
+  margin: 0px 15px 0px 15px;
 }
 
 .comment_goods {
-  border: 1px solid green;
   list-style-type: none;
   width: 550px;
 }
 
 .is_goods_count {
   font-size: 20px;
-  margin-top: 1px;
-  margin-left: 8px;
-  margin-right: 5px;
+  margin: 1px 5px 0px 8px;
 }
 
 .comment_input {
@@ -161,10 +158,20 @@ footer ul li {
   height: 25px;
 }
 
-.comment_word {
-  margin-left: 30px;
+.comment_word_out {
+  margin: 3px 0px 0px 15px;
   font-size: 14px;
-  margin-top: 0px;
   width: 500px;
   border: 1px solid;
+}
+
+
+.comment_word {
+  font-size: 15px;
+  margin: 0px 0px 0px 15px;
+}
+
+/*时间戳*/
+span {
+  font-size: 10px;
 }
