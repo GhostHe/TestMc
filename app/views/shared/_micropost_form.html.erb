@@ -1,5 +1,8 @@
 <div class="micropost_input">
   <%= form_for @micropost do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object %>
+
     <%= f.hidden_field :user_id,:value=>current_user.id%>
 
       <li><%= f.label :content,"发表：" %></li>

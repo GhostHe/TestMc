@@ -3,9 +3,15 @@ class MicropostsController < ApplicationController
  before_action :correct_user, only: :destroy
 
   def create
+    @comment= Comment.new
+    @allmicroposts = Micropost.all
     @micropost = Micropost.new(micropost_params)
-    @micropost.save
-    redirect_to root_path
+    @microposts= Micropost.where(["user_id=?",current_user.id])
+     if @micropost.save
+      redirect_to root_url
+    else
+      render 'static_pages/home'
+    end
   end
 
   def destroy

@@ -74,8 +74,6 @@ footer ul li {
 
 .micropost_input {
   margin: 0px auto;
-  border: 2px #ddd;
-  border-style: none;
   width: 650px;
   list-style-type: none;
 }
@@ -92,29 +90,23 @@ footer ul li {
   color: gray;
 }
 
-
 .signup_out,.login_out{
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+  margin: 0px auto;
   width: 670px;
-  border: 2px;
-  margin-bottom: 50px;
   font-size: 20px;
   list-style-type:none;
 }
 
-
 .inputinput{
-  margin-left: auto;
   font-size: 40px;
+  margin-left: 20px;
 }
+
 .signup_button,.login_button{
   width: 100%;
   height: 60px;
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 50px auto;
+
 }
 
 .input {
@@ -174,4 +166,15 @@ footer ul li {
 /*时间戳*/
 span {
   font-size: 10px;
+}
+
+/* 错误信息 */
+.errors_li {
+  list-style-type: none;
+
+}
+
+/* 闪现消息 */
+.flash {
+  margin-left: 50px;
 }

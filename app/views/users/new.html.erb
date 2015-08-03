@@ -2,6 +2,7 @@
 <div class="signup_out">
   <div class="signup_in">
     <%= form_for @user do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
 
       <li><%= f.label :name ,"用户名:"%></li>
       <li><%= f.text_field :name ,:class=>"inputinput" %></li>

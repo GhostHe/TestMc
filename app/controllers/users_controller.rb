@@ -34,7 +34,7 @@ include UsersHelper
 
       redirect_to root_url
     else
-
+      flash[:notice] ="邮箱或密码匹配不正确！！"
       redirect_to :login
     end
   end
@@ -48,7 +48,7 @@ include UsersHelper
   private
     def user_params
       params.require(:user).permit(:name,:email,:password,
-                                   :password_confrimation)
+                                   :password_confirmation)
     end
 
 
