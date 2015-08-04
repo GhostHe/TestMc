@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 include UsersHelper
 
-
   def new
     @user = User.new
   end
@@ -17,8 +16,21 @@ include UsersHelper
     end
   end
 
-  def show
+  def index
+    @users= User.all
+  end
 
+  def show
+    @user= User.find(params[:id])
+
+    @micropost = Micropost.new()
+    @microposts= Micropost.where(["user_id=?",current_user.id])
+    @comment= Comment.new
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    redirect_to users_url
   end
 
   def login
@@ -50,6 +62,7 @@ include UsersHelper
       params.require(:user).permit(:name,:email,:password,
                                    :password_confirmation)
     end
+
 
 
 end

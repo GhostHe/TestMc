@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   get 'signup'=> 'users#new'
 
-
   get 'login'=> 'users#login'
 
   post 'login'=> 'users#create_login_session'
@@ -16,7 +15,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   get "is_goods" => "microposts#is_goods"
-  resources :users, only: [:create]
+  resources :users
   resources :microposts, only: [:create, :destroy]
 
   resources :comments, only: [:create, :destroy]

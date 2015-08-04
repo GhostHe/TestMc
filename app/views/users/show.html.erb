@@ -1,0 +1,43 @@
+<div class="user_id">
+  <p>Hello I am <%= @user.name %></p>
+</div>
+
+
+
+<div id="micropost_comment_middle">
+    <h1 class="choose_word">发布的微博</h1>
+    <% @microposts.each do |micropost| %>
+
+    <div class="micropost_comment_in">
+      <p class="head_name"><%= micropost.user.name %></p>
+      <p class="micropost_word">
+        <%= micropost.content if micropost %>
+        <%= link_to "delete",micropost, method: :delete %>
+        <span>Posted <%= time_ago_in_words(micropost.created_at)%> ago</span>
+      </p>
+      <div class="comment_goods">
+        <p class="is_goods_count" style="float:left">(<%= micropost.is_good.to_i %>)</p>
+        <input type="button" class="is_good" value="赞" onclick="is_good(this)" style="float:left" >
+        <div>
+          <%= form_for @comment do |f| %>
+            <%= f.hidden_field :user_id,:value=>current_user.id %>
+            <%= f.hidden_field :micropost_id,:value=>micropost.id %>
+            <%= f.text_area :content,:placeholder=>"输入你的评论",
+                          :class=>"comment_input" %>
+            <%= f.submit "评论" %>
+          <% end %>
+        </div>
+      </div>
+      <div>
+        <% micropost.comments.each do |comment| %>
+          <li class="comment_word_out">
+            <p class="head_name"><%= comment.user.name %></p>
+            <p class="comment_word">
+              <%= comment.content if comment %>
+            </p>
+          </li>
+      <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
