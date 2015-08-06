@@ -38,6 +38,10 @@ class MicropostsController < ApplicationController
       render :json => {:is_goods=> micropost.is_good}
   end
 
+  def is_reports
+
+  end
+
   private
     def micropost_params
       params.require(:micropost).permit(:content,:user_id)

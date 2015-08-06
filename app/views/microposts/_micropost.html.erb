@@ -28,7 +28,11 @@
                           :class=>"comment_input" %>
             <%= f.submit "评论" %>
           <% end %>
+
         </div>
+
+        <input type="button" class="report" value="举报" onclick="is_report(this)">
+
       </div>
       <div>
         <% micropost.comments.each do |comment| %>
@@ -58,7 +62,9 @@
         <span>Posted <%= time_ago_in_words(micropost.created_at)%> ago</span>
       </p>
       <div class="comment_goods">
-        <p class="is_goods_count" style="float:left">(<%= micropost.is_good.to_i %>)</p>
+        <p class="is_goods_count" style="float:left">
+          (<%= micropost.is_good.to_i %>)
+        </p>
         <input type="button" class="is_good" value="赞" onclick="is_good(this)" style="float:left" >
         <div>
           <%= form_for @comment do |f| %>
@@ -68,6 +74,8 @@
                           :class=>"comment_input" %>
             <%= f.submit "评论" %>
           <% end %>
+
+
         </div>
       </div>
       <div>
@@ -106,25 +114,36 @@
     }else{
       var type = 0;
     }
-$.ajax({
-     type: 'get',
-     url: "/is_goods" ,
-     data: {
-      user_id : user_id,
-      micropost_id : micropost_id,
-      type : type
-     } ,
-     dataType: 'json',
-     success: function(data){
-      $(obj).parent("div").find(".is_goods_count").html("("+data.is_goods+")");
-      if (type==1){
-          $(obj).val("取消赞");
-      }
-        else{
-          $(obj).val("赞");
-        }
+    $.ajax({
+         type: 'get',
+         url: "/is_goods" ,
+         data: {
+          user_id : user_id,
+          micropost_id : micropost_id,
+          type : type
+         } ,
+         dataType: 'json',
+         success: function(data){
+          $(obj).parent("div").find(".is_goods_count").html("("+data.is_goods+")");
+          if (type==1){
+              $(obj).val("取消赞");
+          }
+            else{
+              $(obj).val("赞");
+            }
 
-     }
-});
+         }
+    });
   }
+
+  function is_report(obj){
+    // var obj_val = $(obj).val;
+    // var user_id ;
+    // var micropost_id;
+
+    var content = prompt("输入举报理由")
+
+
+  }
+
 </script>

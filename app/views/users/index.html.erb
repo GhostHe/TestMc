@@ -1,11 +1,126 @@
-<h1 class="choose_word">所有的用户</h1>
+<div>
+  <% if current_user.admin? %>
+    <div class="adminmanage">
+      <input type="button" class="button" value="用户管理" onclick="usermanage(this)">
+      <input type="button" class="button" value="举报信息" onclick="reportmanage(this)">
+    </div>
 
-<div class="all_users">
-  <% @users.each do |user|%>
+  <!-- 用户管理界面 -->
+    <div id="usermanage_page">
+      <h1 class="choose_word">用户列表</h1>
+      <div class="all_users">
+        <% @users.each do |user|%>
+        <li><%= link_to user.name ,user%>
+        <% if !(user==current_user) %>
+          <input type="button" value="禁用" onclick="changestatus(this,<%= user.id%>)">
+          |<%= link_to 'delete',user,method: :delete %></li>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
 
-  <li><%= link_to user.name ,user%>
-  <% if current_user.admin? && !(user==current_user) %>
-    |<%= link_to 'delete',user,method: :delete %></li>
-    <% end %>
+  <!-- 举报管理界面 -->
+    <div id="reportmanage_page" style="display:none;">
+      <div class="reporttitle">
+        <input type="button" class="button" value="全部信息" onclick="not_view_report(this)">
+        <input type="button" class="button" value="已查看" onclick="viewed_report(this)">
+        <input type="button" class="button" value="已删除" onclick="delete_report(this)">
+      </div>
+
+      <div class="reportlist">
+      <!-- 未查看 -->
+        <div id="not_view_report_page">
+          "未查看的举报信息"
+
+
+        </div>
+      <!-- 已查看 -->
+        <div id="viewed_report_page" style="display:none;">
+          "已查看的举报信息"
+        </div>
+      <!-- 已删除 -->
+        <div id="delete_report_page" style="display:none;">
+          "删除的举报信息"
+        </div>
+      </div>
+
+    </div>
+
+  <% else %>
+
+    <div>
+      <h1 class="choose_word">所有的用户</h1>
+      <div class="all_users">
+        <% @users.each do |user|%>
+        <li><%= link_to user.name ,user%>
+        <% end %>
+      </div>
+    </div>
+
   <% end %>
 </div>
+
+
+<script type="text/javascript">
+  function usermanage(){
+    document.getElementById("usermanage_page").style.display="block"
+    document.getElementById("reportmanage_page").style.display="none"
+  };
+
+  function reportmanage(){
+    document.getElementById("reportmanage_page").style.display="block"
+    document.getElementById("usermanage_page").style.display="none"
+  }
+
+  function not_view_report(){
+    document.getElementById("not_view_report_page").style.display="block"
+    document.getElementById("viewed_report_page").style.display="none"
+    document.getElementById("delete_report_page").style.display="none"
+  }
+
+  function viewed_report(){
+    document.getElementById("not_view_report_page").style.display="none"
+    document.getElementById("viewed_report_page").style.display="block"
+    document.getElementById("delete_report_page").style.display="none"
+  }
+
+  function delete_report(){
+    document.getElementById("not_view_report_page").style.display="none"
+    document.getElementById("viewed_report_page").style.display="none"
+    document.getElementById("delete_report_page").style.display="block"
+  }
+
+  function changestatus(obj,user_id){
+    var obj_val=$(obj).val();
+    if (obj_val=="禁用"){
+      var type=0
+    }
+    else{
+      var type=1
+    }
+    $.ajax({
+         type: 'get',
+         url: "changestatus" ,
+         data: {
+          type : type,
+          id : user_id
+         } ,
+         dataType: 'json',
+         success: function(data){
+          if (type==0){
+              $(obj).val("启用");
+              alert("已禁用");
+          }
+            else{
+              $(obj).val("禁用");
+              alert("已启用");
+            }
+         }
+    });
+
+}
+
+</script>
+
+
+

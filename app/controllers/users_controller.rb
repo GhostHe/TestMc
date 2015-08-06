@@ -18,6 +18,8 @@ include UsersHelper
 
   def index
     @users= User.all
+
+
   end
 
   def show
@@ -33,7 +35,22 @@ include UsersHelper
     redirect_to users_url
   end
 
+  def edit
+    @user = User.find(params[:id])
+
+  end
+
   def login
+  end
+
+  def changestatus
+    @user= User.find(params[:id])
+    if params[:type].to_i==0
+      @user.update_attributes(:status=>0)
+    else
+      @user.update_attributes(:status=>1)
+    end
+    render :json=>{}
   end
 
   def create_login_session

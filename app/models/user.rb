@@ -7,13 +7,14 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
 
   has_secure_password
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, allow_blank: true
 
 
 
   has_many :comments
   has_many :microposts
   has_many :goods
+  has_many :reports
 
 
 

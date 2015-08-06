@@ -6,4 +6,6 @@ class Micropost < ActiveRecord::Base
   belongs_to :user
   has_many :comments
   has_many :goods
+  has_many :reports
+
 end
