@@ -1,0 +1,4 @@
+log/
+tmp/
+comfig/database.yml
+Gemfile.lock

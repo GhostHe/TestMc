@@ -1,18 +1,23 @@
-<h1>修改用户资料</h1>
-<div>
-  <%= form_for(@user) do |f| %>
-    <%= f.label :name %>
-    <%= f.name_field :name %>
+<h1 class="title">修改用户</h1>
+<div class="signup_out">
+  <div class="signup_in">
+    <%= form_for @user do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
 
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+      <li><%= f.label :name ,"用户名:"%></li>
+      <li><%= f.text_field :name ,:class=>"inputinput" %></li>
 
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+      <li><%= f.label :email ,"Email:"%></li>
+      <li><%= f.email_field :email ,:class=>"inputinput" %></li>
 
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
+      <li><%= f.label :password ,"输入密码:"%></li>
+      <li><%= f.password_field :password ,:class=>"inputinput" %></li>
 
-    <%= f.submit "提交更改"%>
-  <% end %>
+      <li><%= f.label :password_confirmation ,"确认密码:"%></li>
+      <li><%= f.password_field :password_confirmation ,:class=>"inputinput" %></li>
+
+      <%= f.submit "确认修改" ,:class=>"signup_button"%>
+
+    <% end %>
+  </div>
 </div>

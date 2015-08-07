@@ -14,9 +14,9 @@ Rails.application.routes.draw do
 
   root 'static_pages#home'
 
-  get "is_goods" => "microposts#is_goods"
-
   get "changestatus"=> "users#changestatus"
+
+  get "is_goods" => "microposts#is_goods"
 
   get "is_reports"=> "microposts#is_reports"
   resources :users

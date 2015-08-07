@@ -39,12 +39,28 @@ class MicropostsController < ApplicationController
   end
 
   def is_reports
-
+    p 'ssssssssssssss'
+    micropost = Micropost.find_by_id(params[:micropost_id])
+    p params[:report_content],params[:type]
+    @report = Report.find_by_user_id_and_micropost_id_and_content(params[:user_id],params[:micropost_id],params[:report_content])
+    p @report
+    if params[:type]==0 or @report
+      @report.destroy
+    p "1111111111111"
+    p @report
+    else
+      Report.transaction do
+        Report.create(:user_id=>params[:user_id],:micropost_id=>params[:micropost_id],:content=>params[:report_content])
+      end
+    p "2222222222222"
+    end
+    micropost.save
+    render :json => {}
   end
 
   private
     def micropost_params
-      params.require(:micropost).permit(:content,:user_id)
+      params.require(:micropost).permit(:content)
     end
 
     def correct_user

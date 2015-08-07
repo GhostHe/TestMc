@@ -10,7 +10,7 @@
       <h1 class="choose_word">用户列表</h1>
       <div class="all_users">
         <% @users.each do |user|%>
-        <li><%= link_to user.name ,user%>
+        <li><%= link_to user.name %>
         <% if !(user==current_user) %>
           <input type="button" value="禁用" onclick="changestatus(this,<%= user.id%>)">
           |<%= link_to 'delete',user,method: :delete %></li>
@@ -28,10 +28,14 @@
       </div>
 
       <div class="reportlist">
-      <!-- 未查看 -->
+      <!-- 全部的举报信息 -->
         <div id="not_view_report_page">
-          "未查看的举报信息"
-
+          <div class="report_content">
+            <% @reports.each do |report| %>
+            <li>举报人id:<%= link_to report.user_id %>||被举报的用户 id:<%= link_to report.micropost.user.id %>||微博内容：<%= link_to report.micropost.content %>||举报理由：<%= link_to report.content %>||删除<%= link_to "delete"%>
+            </li>
+          <% end %>
+          </div>
 
         </div>
       <!-- 已查看 -->
@@ -52,7 +56,7 @@
       <h1 class="choose_word">所有的用户</h1>
       <div class="all_users">
         <% @users.each do |user|%>
-        <li><%= link_to user.name ,user%>
+        <li><%= link_to user.name %>
         <% end %>
       </div>
     </div>
@@ -93,10 +97,10 @@
   function changestatus(obj,user_id){
     var obj_val=$(obj).val();
     if (obj_val=="禁用"){
-      var type=0
+      var type=0;
     }
     else{
-      var type=1
+      var type=1;
     }
     $.ajax({
          type: 'get',

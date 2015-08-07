@@ -18,7 +18,8 @@ include UsersHelper
 
   def index
     @users= User.all
-
+    @reports = Report.all
+    @report = Report.find_by(params[:id])
 
   end
 
@@ -37,7 +38,15 @@ include UsersHelper
 
   def edit
     @user = User.find(params[:id])
+  end
 
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      redirect_to
+    else
+      render 'edit'
+    end
   end
 
   def login
