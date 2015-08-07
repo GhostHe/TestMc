@@ -19,7 +19,7 @@
         <p class="is_goods_count" style="float:left">
           (<%= micropost.is_good.to_i %>)
         </p>
-        <input type="button" class="is_good" value="赞" onclick="is_good(this)" style="float:left" >
+        <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(@current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this)" style="float:left" >
         <div>
           <%= form_for @comment do |f| %>
             <%= f.hidden_field :user_id,:value=>current_user.id %>
@@ -31,7 +31,7 @@
 
         </div>
 
-        <input type="button" class="is_report" value="举报" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
+        <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(@current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
 
       </div>
       <div>
@@ -141,7 +141,11 @@
     if (obj_val=="举报"){
       var type = 1;
       var report_content = prompt("输入举报理由");
-      alert(report_content);
+      alert($.trim(obj_val));
+      if (report_content==null || report_content==""){
+        alert(22);
+        return false;
+      }
     }else{
       var type = 0;
     }

@@ -42,9 +42,9 @@ class MicropostsController < ApplicationController
     p 'ssssssssssssss'
     micropost = Micropost.find_by_id(params[:micropost_id])
     p params[:report_content],params[:type]
-    @report = Report.find_by_user_id_and_micropost_id_and_content(params[:user_id],params[:micropost_id],params[:report_content])
+    @report = Report.find_by_user_id_and_micropost_id(params[:user_id],params[:micropost_id])
     p @report
-    if params[:type]==0 or @report
+    if params[:type].to_i==0 or @report
       @report.destroy
     p "1111111111111"
     p @report
