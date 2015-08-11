@@ -39,15 +39,12 @@ class MicropostsController < ApplicationController
   end
 
   def is_reports
-    p 'ssssssssssssss'
+
     micropost = Micropost.find_by_id(params[:micropost_id])
-    p params[:report_content],params[:type]
     @report = Report.find_by_user_id_and_micropost_id(params[:user_id],params[:micropost_id])
-    p @report
     if params[:type].to_i==0 or @report
       @report.destroy
     p "1111111111111"
-    p @report
     else
       Report.transaction do
         Report.create(:user_id=>params[:user_id],:micropost_id=>params[:micropost_id],:content=>params[:report_content])
@@ -60,7 +57,7 @@ class MicropostsController < ApplicationController
 
   private
     def micropost_params
-      params.require(:micropost).permit(:content)
+      params.require(:micropost).permit( :user_id,:content)
     end
 
     def correct_user

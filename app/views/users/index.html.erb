@@ -32,7 +32,11 @@
         <div id="not_view_report_page">
           <div class="report_content">
             <% @reports.each do |report| %>
-            <li>举报人id:<%= link_to report.user_id %>||被举报的用户 id:<%= link_to report.micropost.user.id %>||微博内容：<%= link_to report.micropost.content %>||举报理由：<%= link_to report.content %>||删除<%= link_to "delete"%>
+            <li>举报人id:<%= link_to report.user_id %>
+            ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+            ||微博内容：<%= link_to report.micropost.content %>
+            ||举报理由：<%= link_to report.content %>
+            ||删除<%= link_to "delete"%>
             </li>
           <% end %>
           </div>
@@ -56,7 +60,7 @@
       <h1 class="choose_word">所有的用户</h1>
       <div class="all_users">
         <% @users.each do |user|%>
-        <li><%= link_to user.name %>
+        <li><%= link_to user.name, user %>
         <% end %>
       </div>
     </div>

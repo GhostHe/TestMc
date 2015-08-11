@@ -5,8 +5,7 @@
 
     <%= f.hidden_field :user_id,:value=>current_user.id%>
 
-      <li><%= f.label :content,"发表：" %></li>
-      <li><%= f.text_area :content ,:class=>"input"%></li>
+      <li><%= f.text_area :content ,:class=>"input", placeholder:"输入微博"%></li>
 
     <p><%= f.submit "提交", :class=>"micropost_button" %>
   <% end %>
