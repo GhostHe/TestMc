@@ -8,4 +8,6 @@ class Micropost < ActiveRecord::Base
   has_many :goods
   has_many :reports
 
+  mount_uploader :picture, PictureUploader
+
 end

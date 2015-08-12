@@ -1,12 +1,9 @@
 <div class="micropost_input">
-  <%= form_for @micropost do |f| %>
-
+  <%= form_for(@micropost, html: { multipart: true }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
-
     <%= f.hidden_field :user_id,:value=>current_user.id%>
-
-      <li><%= f.text_area :content ,:class=>"input", placeholder:"输入微博"%></li>
-
-    <p><%= f.submit "提交", :class=>"micropost_button" %>
+    <li><%= f.text_area :content ,:class=>"input", placeholder:"输入微博"%></li>
+    <%= f.submit "提交", :class=>"micropost_button" %>
+    <%= f.file_field :picture %>
   <% end %>
 </div>
