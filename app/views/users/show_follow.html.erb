@@ -1,0 +1,13 @@
+<% provide(:title, @title)%>
+<div>
+  <h1><%= @user.name %></h1>
+  <%= render 'shared/stats'%>
+</div>
+
+<div>
+  <h3><%= @title %></h3>
+  <% if @users.any? %>
+    <%= render @users%>
+    <%= will_paginate %>
+  <%end %>
+</div>

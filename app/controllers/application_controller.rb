@@ -9,5 +9,12 @@ private
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
    end
 
+   def logged_in_user
+    unless !current_user.nil?
+      store_location
+      redirect_to login_url
+    end
+  end
+
    helper_method :current_user
 end

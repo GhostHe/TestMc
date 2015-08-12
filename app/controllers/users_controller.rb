@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 include UsersHelper
+before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+                                        :following, :followers]
 
   def new
     @user = User.new
@@ -25,8 +27,6 @@ include UsersHelper
 
   def show
     @user= User.find(params[:id])
-
-    @micropost = Micropost.new()
     @microposts= Micropost.where(["user_id=?",current_user.id])
     @comment= Comment.new
   end
@@ -50,6 +50,20 @@ include UsersHelper
   end
 
   def login
+  end
+
+  def following
+    @title="Following"
+    @user =User.find(params[:id])
+    @users=@user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title ="Following"
+    @user =User.find(params[:id])
+    @users=@user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   def changestatus

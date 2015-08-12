@@ -11,7 +11,7 @@
       <h1 class="choose_word">用户列表</h1>
       <div class="all_users">
         <% @users.each do |user|%>
-        <li><%= link_to user.name %>
+        <li><%= render user %>
         <% if !(user==current_user) %>
           <input type="button" value="禁用" onclick="changestatus(this,<%= user.id%>)">
           |<%= link_to 'delete',user,method: :delete %></li>
