@@ -6,7 +6,10 @@
 </div>
 <% if current_user %>
   <h1 class="title">Hello，Welcome!</h1>
-  <%= render 'shared/stats'%>
+  <div>
+    <%= render 'shared/user_info'%>
+    <%= render 'shared/stats'%>
+  </div>
   <%= render 'shared/micropost_form'%>
   <%= render 'microposts/micropost'%>
 <% else %>

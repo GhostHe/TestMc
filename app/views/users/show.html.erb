@@ -1,11 +1,12 @@
 <% provide(:title,@user.name)%>
-<div class="user_id">
-  <p>Hello I am <%= @user.name %></p>
+<div>
+  <h1>
+  <%= gravatar_for @user %>
+  <%= @user.name %></h1>
+  <%= render 'shared/stats'%>
 </div>
 
-<%= render 'shared/stats'%>
-<%= render 'follow_form'%>
-
+  <%= render 'follow_form'%>
 
 
 <div id="micropost_comment_middle">
