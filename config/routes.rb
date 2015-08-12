@@ -19,10 +19,16 @@ Rails.application.routes.draw do
   get "is_goods" => "microposts#is_goods"
 
   get "is_reports"=> "microposts#is_reports"
-  resources :users
+  resources :users do
+    member do
+      get :following, :followed
+    end
+  end
   resources :microposts, only: [:create, :destroy]
 
   resources :comments, only: [:create, :destroy]
+
+  resources :relationships, only: [:create, :destroy]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

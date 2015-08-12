@@ -17,7 +17,7 @@ include UsersHelper
   end
 
   def index
-    @users= User.all
+    @users= User.paginate(:page => params[:page])
     @reports = Report.all
     @report = Report.find_by(params[:id])
 
