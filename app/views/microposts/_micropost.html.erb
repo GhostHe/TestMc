@@ -1,111 +1,43 @@
-<p class="choose_button">
-  <input type="button" class="button" value="所有人的微博" onclick="allmicropost(this)">
-  <input type="button" class="button" value="自己的微博" onclick="ownmicropost(this)">
-</p>
+<li>
+  <%= link_to gravatar_for(micropost.user, size: 60), micropost.user %>
+  <%= link_to micropost.user.name, micropost.user%>
 
-<div class="micropost_comment_out">
-  <div id="allmicroposts">
-    <h1 class="choose_word">这是所有人的微博</h1>
-    <% @allmicroposts.each do |micropost| %>
+  <%= micropost.content %>
+  <%= image_tag micropost.picture.url if micropost.picture? %>
+  Posted <%= time_ago_in_words(micropost.created_at) %> ago.
 
-    <div class="micropost_comment_in">
-      <p class="head_name"><%= micropost.user.name %></p>
-      <p class="micropost_word">
-        <li><%= micropost.content if micropost %></li>
-        <%= image_tag micropost.picture.url if micropost.picture? %>
-        <%= link_to "delete",micropost, method: :delete %>
-        <span>Posted <%= time_ago_in_words(micropost.created_at)%> ago</span>
-      </p>
-      <div class="comment_goods">
-        <p class="is_goods_count" style="float:left">
-          (<%= micropost.is_good.to_i %>)
-        </p>
-        <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(@current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this)" style="float:left" >
-        <div>
-          <%= form_for @comment do |f| %>
-            <%= f.hidden_field :user_id,:value=>current_user.id %>
-            <%= f.hidden_field :micropost_id,:value=>micropost.id %>
-            <%= f.text_area :content,:placeholder=>"输入你的评论",
-                          :class=>"comment_input" %>
-            <%= f.submit "评论" %>
-          <% end %>
+  <% if current_user?(micropost.user) %>
+    <%= link_to "delete",micropost, method: :delete,
+                                    data: { confirm: "You sure?"} %>
+  <% end %>
 
-        </div>
+  (<%= micropost.is_good.to_i %>)
 
-        <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(@current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
+  <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(@current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this)" >
 
-      </div>
-      <div>
-        <% micropost.comments.each do |comment| %>
-          <li class="comment_word_out">
-            <p class="head_name"><%= comment.user.name %></p>
-            <p class="comment_word">
-              <%= comment.content if comment %>
-            </p>
-          </li>
-      <% end %>
-      </div>
-    </div>
+  <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(@current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
+
+  <div>
+    <%= form_for @comment do |f| %>
+      <%= f.hidden_field :user_id,:value=>current_user.id %>
+      <%= f.hidden_field :micropost_id,:value=>micropost.id %>
+      <%= f.text_area :content,:placeholder=>"输入你的评论",
+                      :class=>"comment_input" %>
+      <%= f.submit "评论" %>
     <% end %>
   </div>
 
-
-
-  <div id="micropost_comment_middle" style="display:none;">
-    <h1 class="choose_word">这是自己的微博</h1>
-    <% @microposts.each do |micropost| %>
-
-    <div class="micropost_comment_in">
-      <p class="head_name"><%= micropost.user.name %></p>
-      <p class="micropost_word">
-        <li><%= micropost.content if micropost %></li>
-        <%= image_tag micropost.picture.url if micropost.picture? %>
-        <%= link_to "delete",micropost, method: :delete %>
-        <span>Posted <%= time_ago_in_words(micropost.created_at)%> ago</span>
-      </p>
-      <div class="comment_goods">
-        <p class="is_goods_count" style="float:left">
-          (<%= micropost.is_good.to_i %>)
-        </p>
-        <input type="button" class="is_good" value="赞" onclick="is_good(this)" style="float:left" >
-        <div>
-          <%= form_for @comment do |f| %>
-            <%= f.hidden_field :user_id,:value=>current_user.id %>
-            <%= f.hidden_field :micropost_id,:value=>micropost.id %>
-            <%= f.text_area :content,:placeholder=>"输入你的评论",
-                          :class=>"comment_input" %>
-            <%= f.submit "评论" %>
-          <% end %>
-
-
-        </div>
-      </div>
-      <div>
-        <% micropost.comments.each do |comment| %>
-          <li class="comment_word_out">
-            <p class="head_name"><%= comment.user.name %></p>
-            <p class="comment_word">
-              <%= comment.content if comment %>
-            </p>
-          </li>
-      <% end %>
-      </div>
-    </div>
+  <div>
+    <% micropost.comments.each do |comment| %>
+      <%= comment.user.name %>
+      <%= comment.content if comment %>
     <% end %>
   </div>
-</div>
+
+  </li>
+
 
 <script type="text/javascript">
-
-  function allmicropost(){
-    document.getElementById("allmicroposts").style.display="block"
-    document.getElementById("micropost_comment_middle").style.display="none"
-  }
-
-  function ownmicropost(){
-    document.getElementById("allmicroposts").style.display="none"
-    document.getElementById("micropost_comment_middle").style.display="block"
-  }
 
   function is_good(obj){
     var obj_val = $(obj).val();
@@ -178,3 +110,4 @@
   }
 
 </script>
+

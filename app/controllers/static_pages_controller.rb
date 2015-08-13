@@ -2,11 +2,10 @@ class StaticPagesController < ApplicationController
 
   def home
 
-    if current_user
-      @micropost = Micropost.new()
-      @microposts= Micropost.where(["user_id=?",current_user.id])
+    if logged_in?
+      @micropost = current_user.microposts.build
+      @feed_items = current_user.feed.paginate(page: params[:page])
       @comment= Comment.new
-      @allmicroposts = Micropost.all
     end
   end
 

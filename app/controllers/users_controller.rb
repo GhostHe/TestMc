@@ -19,7 +19,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def index
-    @users= User.paginate(:page => params[:page])
+    @users= User.paginate(page: params[:page])
     @reports = Report.all
     @report = Report.find_by(params[:id])
 
@@ -27,7 +27,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
 
   def show
     @user= User.find(params[:id])
-    @microposts= Micropost.where(["user_id=?",current_user.id])
+    @microposts= @user.microposts.paginate(page: params[:page])
     @comment= Comment.new
   end
 
@@ -77,13 +77,9 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def create_login_session
-    # p params[:session][:email],params[:session][:password]
     user = User.find_by_email(params[:session][:email])
-    # p user
     if user && user.authenticate(params[:session][:password])
-
       log_in user
-
       redirect_to root_url
     else
       flash[:notice] ="邮箱或密码匹配不正确！！"
@@ -97,11 +93,12 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
 
-  private
-    def user_params
-      params.require(:user).permit(:name,:email,:password,
-                                   :password_confirmation)
-    end
+private
+
+  def user_params
+    params.require(:user).permit(:name,:email,:password,
+                                 :password_confirmation)
+  end
 
 
 

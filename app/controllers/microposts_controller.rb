@@ -5,11 +5,12 @@ class MicropostsController < ApplicationController
   def create
     @comment= Comment.new
     @allmicroposts = Micropost.all
-    @micropost = Micropost.new(micropost_params)
+    @micropost = current_user.microposts.build(micropost_params)
     @microposts= Micropost.where(["user_id=?",current_user.id])
      if @micropost.save
       redirect_to root_url
     else
+      @feed_items = []
       render 'static_pages/home'
     end
   end
