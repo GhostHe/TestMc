@@ -8,11 +8,11 @@ Rails.application.routes.draw do
 
   get 'signup'=> 'users#new'
 
-  get 'login'=> 'users#login'
+  get 'login'=> 'sessions#new'
 
-  post 'login'=> 'users#create_login_session'
+  post 'login'=> 'sessions#create'
 
-  delete 'logout'=> 'users#logout', :as => "logout"
+  delete 'logout'=> 'sessions#destroy', :as => "logout"
 
   root 'static_pages#home'
 

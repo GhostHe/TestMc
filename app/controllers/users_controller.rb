@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 include UsersHelper
+
 before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
                                         :following, :followers]
 
@@ -22,7 +23,6 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
     @users= User.paginate(page: params[:page])
     @reports = Report.all
     @report = Report.find_by(params[:id])
-
   end
 
   def show
@@ -49,8 +49,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
     end
   end
 
-  def login
-  end
+
 
   def following
     @title="Following"
@@ -60,7 +59,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def followers
-    @title ="Following"
+    @title ="Followers"
     @user =User.find(params[:id])
     @users=@user.followers.paginate(page: params[:page])
     render 'show_follow'
@@ -76,21 +75,9 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
     render :json=>{}
   end
 
-  def create_login_session
-    user = User.find_by_email(params[:session][:email])
-    if user && user.authenticate(params[:session][:password])
-      log_in user
-      redirect_to root_url
-    else
-      flash[:notice] ="邮箱或密码匹配不正确！！"
-      redirect_to :login
-    end
-  end
 
-  def logout
-    session[:user_id]= nil
-    redirect_to root_url
-  end
+
+
 
 
 private
