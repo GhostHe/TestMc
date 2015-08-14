@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813071544) do
+ActiveRecord::Schema.define(version: 20150814054723) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",      limit: 4
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20150813071544) do
     t.string   "activation_digest", limit: 255
     t.boolean  "activated",                     default: false
     t.datetime "activated_at"
+    t.string   "remember_digest",   limit: 255
   end
 
 end
