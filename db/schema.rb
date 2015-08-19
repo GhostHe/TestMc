@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814054723) do
+ActiveRecord::Schema.define(version: 20150817052859) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",      limit: 4
@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(version: 20150814054723) do
     t.integer  "user_id",      limit: 4
     t.integer  "micropost_id", limit: 4
     t.text     "content",      limit: 65535
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "status",       limit: 4,     default: 0
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150814054723) do
     t.datetime "updated_at",                                    null: false
     t.string   "password_digest",   limit: 255
     t.boolean  "admin"
-    t.integer  "status",            limit: 4
+    t.integer  "status",            limit: 4,   default: 0
     t.string   "activation_digest", limit: 255
     t.boolean  "activated",                     default: false
     t.datetime "activated_at"

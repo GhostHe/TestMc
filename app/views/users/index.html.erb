@@ -13,7 +13,7 @@
         <% @users.each do |user|%>
         <li><%= render user %>
         <% if !(user==current_user) %>
-          <input type="button" value="禁用" onclick="changestatus(this,<%= user.id%>)">
+          <input type="button" value="<%= user.status=="pass" ? "禁用" : "启用"%>" onclick="changestatus(this,<%= user.id%>)">
           |<%= link_to 'delete',user,method: :delete %></li>
           <% end %>
         <% end %>
@@ -27,29 +27,61 @@
         <input type="button" class="button" value="已查看" onclick="viewed_report(this)">
         <input type="button" class="button" value="已删除" onclick="delete_report(this)">
       </div>
-
+      <!-- 全部 -->
       <div class="reportlist">
-      <!-- 全部的举报信息 -->
         <div id="not_view_report_page">
+          全部的举报信息
           <div class="report_content">
             <% @reports.each do |report| %>
-            <li>举报人id:<%= link_to report.user_id %>
-            ||被举报的用户 id:<%= link_to report.micropost.user.id %>
-            ||微博内容：<%= link_to report.micropost.content %>
-            ||举报理由：<%= link_to report.content %>
-            ||删除<%= link_to "delete"%>
-            </li>
+            <div id="box">
+            <% if report.status != "deleted" %>
+               <li>举报人id:<%= link_to report.user_id %>
+              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+              ||微博内容：<%=  report.micropost.content %>
+              ||举报理由：<%=  report.content %>
+              ||<%= link_to "已阅",report_viewed_path %>
+              </li>
+              <% end %>
+            </div>
           <% end %>
           </div>
-
         </div>
       <!-- 已查看 -->
         <div id="viewed_report_page" style="display:none;">
-          "已查看的举报信息"
+          已看的举报信息
+          <div class="report_content">
+            <% @reports.each do |report| %>
+            <% if report.status== "viewed" %>
+              <li>
+              举报人id:<%= link_to report.user_id %>
+              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+              ||微博内容：<%=  report.micropost.content %>
+              ||举报理由：<%=  report.content %>
+              ||<%= link_to "删除",report_deleted_path %>
+              ||
+              <a href="<%= reportinformation_user_path(report.user) %>">
+                举报项目
+              </a>
+              </li>
+            <% end %>
+          <% end %>
+          </div>
         </div>
       <!-- 已删除 -->
         <div id="delete_report_page" style="display:none;">
-          "删除的举报信息"
+          删除的举报信息
+          <div class="report_content">
+          <% @reports.each do |report| %>
+            <% if report.status== "deleted" %>
+              <li>
+              举报人id:<%= link_to report.user_id %>
+              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+              ||微博内容：<%=  report.micropost.content %>
+              ||举报理由：<%=  report.content %>
+              ||<%= link_to "彻底删除",report_destroy_path %>
+              </li>
+            <% end %>
+          <% end %>
         </div>
       </div>
 
@@ -72,6 +104,32 @@
 
 
 <script type="text/javascript">
+
+  function show(){
+    var box = document.getElementById("box");
+    var text = box.innerHTML;
+    var newBox = document.createElement("div");
+    var btn = document.createElement("a");
+    newBox.innerHTML = text.substring(0,50);
+    btn.innerHTML = text.length > 50 ? "...显示全部" : "";
+    btn.href = "###";
+    btn.onclick = function(){
+      if (btn.innerHTML == "...显示全部"){
+        btn.innerHTML = "收起";
+        newBox.innerHTML = text;
+      }
+      else{
+        btn.innerHTML = "...显示全部";
+        newBox.innerHTML = text.substring(0,50);
+      }
+    }
+    box.innerHTML = "";
+    box.appendChild(newBox);
+    box.appendChild(btn);
+    }
+    show();
+
+
   function usermanage(){
     document.getElementById("usermanage_page").style.display="block"
     document.getElementById("reportmanage_page").style.display="none"
@@ -129,6 +187,8 @@
     });
 
 }
+
+
 
 </script>
 

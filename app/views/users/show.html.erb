@@ -23,7 +23,7 @@
       </p>
       <div class="comment_goods">
         <p class="is_goods_count" style="float:left">(<%= micropost.is_good.to_i %>)</p>
-        <input type="button" class="is_good" value="赞" onclick="is_good(this)" style="float:left" >
+        <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this,<%= current_user.id%>,<%= micropost.id%>)" style="float:left" >
         <div>
           <%= form_for @comment do |f| %>
             <%= f.hidden_field :user_id,:value=>current_user.id %>
@@ -47,3 +47,37 @@
     </div>
     <% end %>
   </div>
+
+  <script type="text/javascript">
+
+  function is_good(obj,user_id,micropost_id){
+    var obj_val = $(obj).val();
+    // var user_id = $(obj).parent("div").find("input[name='comment[user_id]']").val();
+    // var micropost_id = $(obj).parent("div").find("input[name='comment[micropost_id]']").val();
+    if (obj_val=="赞"){
+      var type = 1;
+    }else{
+      var type = 0;
+    }
+    $.ajax({
+         type: 'get',
+         url: "/is_goods" ,
+         data: {
+            user_id : user_id,
+            micropost_id : micropost_id,
+            type : type
+         },
+         dataType: 'json',
+         success: function(data){
+          $(obj).parent("div").find(".is_goods_count").html("("+data.is_goods+")");
+          if (type==1){
+              $(obj).val("取消赞");
+          }
+            else{
+              $(obj).val("赞");
+            }
+
+         }
+    });
+  }
+  </script>

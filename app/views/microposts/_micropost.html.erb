@@ -4,18 +4,16 @@
 
   <%= micropost.content %>
   <%= image_tag micropost.picture.url if micropost.picture? %>
-  Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  || Posted <%= time_ago_in_words(micropost.created_at) %> ago.
 
   <% if current_user?(micropost.user) %>
     <%= link_to "delete",micropost, method: :delete,
                                     data: { confirm: "You sure?"} %>
   <% end %>
-
   (<%= micropost.is_good.to_i %>)
+  <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this,<%= current_user.id%>,<%= micropost.id%>)" >
 
-  <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(@current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this)" >
-
-  <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(@current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
+  <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= @current_user.id%>,<%= micropost.id%>)">
 
   <div>
     <%= form_for @comment do |f| %>
@@ -29,8 +27,12 @@
 
   <div>
     <% micropost.comments.each do |comment| %>
-      <%= comment.user.name %>
+    <li>
+      <%= link_to gravatar_for(comment.user, size: 40), comment.user %>
+      <%= link_to comment.user.name, micropost.user%>
       <%= comment.content if comment %>
+      || Posted <%= time_ago_in_words(comment.created_at) %> ago.
+    </li>
     <% end %>
   </div>
 
@@ -39,10 +41,10 @@
 
 <script type="text/javascript">
 
-  function is_good(obj){
+  function is_good(obj,user_id,micropost_id){
     var obj_val = $(obj).val();
-    var user_id = $(obj).parent("div").find("input[name='comment[user_id]']").val();
-    var micropost_id = $(obj).parent("div").find("input[name='comment[micropost_id]']").val();
+    // var user_id = $(obj).parent("div").find("input[name='comment[user_id]']").val();
+    // var micropost_id = $(obj).parent("div").find("input[name='comment[micropost_id]']").val();
     if (obj_val=="赞"){
       var type = 1;
     }else{
@@ -75,7 +77,7 @@
     if (obj_val=="举报"){
       var type = 1;
       var report_content = prompt("输入举报理由");
-      alert($.trim(obj_val));
+      alert(report_content);
       if (report_content==null || report_content==""){
         alert(22);
         return false;

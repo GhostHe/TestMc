@@ -21,9 +21,14 @@ Rails.application.routes.draw do
   get "is_goods" => "microposts#is_goods"
 
   get "is_reports"=> "microposts#is_reports"
+
+  get "report_viewed"=> "users#report_viewed"
+  get "report_deleted"=> "users#report_deleted"
+  get "report_destroy"=> "users#report_destroy"
+
   resources :users do
     member do
-      get :following, :followers
+      get :following, :followers,:reportinformation
     end
   end
   resources :microposts, only: [:create, :destroy]

@@ -1,4 +1,10 @@
 class User < ActiveRecord::Base
+
+  enum status: {
+    pass: 0,
+    rejected: 1,
+  }
+
   attr_accessor :remember_token
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -40,7 +46,7 @@ class User < ActiveRecord::Base
 
   def remember
     self.remember_token = User.new_token
-    update_attribute(:remember_digest,User.digest(remember_token))
+    update_attribute(:remember_digest, User.digest(remember_token))
   end
 
   def authenticated?(remember_token)

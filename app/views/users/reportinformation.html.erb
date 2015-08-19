@@ -1,0 +1,11 @@
+<h1>Reports</h1>
+<div class="report_content">
+<% @reports.each do |report| %>
+  <li>举报人id:<%= link_to report.user_id %>
+    ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+    ||微博内容：<%= link_to report.micropost.content %>
+    ||举报理由：<%= link_to report.content %>
+    ||删除<%= link_to "delete"%>
+  </li>
+  <% end %>
+</div>

@@ -27,7 +27,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
 
   def show
     @user= User.find(params[:id])
-    @microposts= @user.microposts.paginate(page: params[:page])
+    @microposts= @user.microposts.all
     @comment= Comment.new
   end
 
@@ -49,12 +49,10 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
     end
   end
 
-
-
   def following
     @title="Following"
     @user =User.find(params[:id])
-    @users=@user.following.paginate(page: params[:page])
+    @users=@user.following.all
     render 'show_follow'
   end
 
@@ -75,8 +73,29 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
     render :json=>{}
   end
 
+  def reportinformation
+    @user= User.find(params[:id])
+    @reports=@user.reports
+  end
 
+  def report_viewed
+    @report=Report.find_by(params[:id])
+    @report.status="viewed"
+    @report.save
+    redirect_to users_url
+  end
 
+  def report_deleted
+    @report=Report.find_by(params[:id])
+    @report.status="deleted"
+    @report.save
+    redirect_to users_url
+  end
+
+  def report_destroy
+    Report.find(params[:id]).destroy
+    redirect_to users_url
+  end
 
 
 
@@ -86,7 +105,5 @@ private
     params.require(:user).permit(:name,:email,:password,
                                  :password_confirmation)
   end
-
-
 
 end
