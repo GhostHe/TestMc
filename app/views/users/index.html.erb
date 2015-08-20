@@ -35,11 +35,11 @@
             <% @reports.each do |report| %>
             <div id="box">
             <% if report.status != "deleted" %>
-               <li>举报人id:<%= link_to report.user_id %>
+              <li>举报人id:<%= link_to report.user_id %>
               ||被举报的用户 id:<%= link_to report.micropost.user.id %>
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
-              ||<%= link_to "已阅",report_viewed_path %>
+              ||<input type="button" value="已阅" onclick="change_viewed(<%= report.id %>)" />
               </li>
               <% end %>
             </div>
@@ -57,11 +57,8 @@
               ||被举报的用户 id:<%= link_to report.micropost.user.id %>
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
-              ||<%= link_to "删除",report_deleted_path %>
-              ||
-              <a href="<%= reportinformation_user_path(report.user) %>">
-                举报项目
-              </a>
+              ||<a href="/report_deleted?report_id=<%= report.id%>" data-remote="true">删除</a>
+              //<input type="button" value="删除" onclick="change_deleted(<%= report.id %> )">
               </li>
             <% end %>
           <% end %>
@@ -78,7 +75,9 @@
               ||被举报的用户 id:<%= link_to report.micropost.user.id %>
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
-              ||<%= link_to "彻底删除",report_destroy_path %>
+              ||<a href="/report_viewed?report_id=<%= report.id%>" data-remote="true">恢复删除</a>
+              //<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )">
+              ||<input type="button" value="彻底删除" onclick="change_destroy(<%= report.id %> )">
               </li>
             <% end %>
           <% end %>
@@ -91,7 +90,7 @@
 
     <div>
       <h1 class="choose_word">所有的用户</h1>
-      <%= will_paginate %>
+
       <div class="all_users">
         <% @users.each do |user|%>
         <li><%= render user %></li>
@@ -105,29 +104,29 @@
 
 <script type="text/javascript">
 
-  function show(){
-    var box = document.getElementById("box");
-    var text = box.innerHTML;
-    var newBox = document.createElement("div");
-    var btn = document.createElement("a");
-    newBox.innerHTML = text.substring(0,50);
-    btn.innerHTML = text.length > 50 ? "...显示全部" : "";
-    btn.href = "###";
-    btn.onclick = function(){
-      if (btn.innerHTML == "...显示全部"){
-        btn.innerHTML = "收起";
-        newBox.innerHTML = text;
-      }
-      else{
-        btn.innerHTML = "...显示全部";
-        newBox.innerHTML = text.substring(0,50);
-      }
-    }
-    box.innerHTML = "";
-    box.appendChild(newBox);
-    box.appendChild(btn);
-    }
-    show();
+  // function show(){
+  //   var box = document.getElementById("box");
+  //   var text = box.innerHTML;
+  //   var newBox = document.createElement("div");
+  //   var btn = document.createElement("a");
+  //   newBox.innerHTML = text.substring(0,50);
+  //   btn.innerHTML = text.length > 50 ? "...显示全部" : "";
+  //   btn.href = "###";
+  //   btn.onclick = function(){
+  //     if (btn.innerHTML == "...显示全部"){
+  //       btn.innerHTML = "收起";
+  //       newBox.innerHTML = text;
+  //     }
+  //     else{
+  //       btn.innerHTML = "...显示全部";
+  //       newBox.innerHTML = text.substring(0,50);
+  //     }
+  //   }
+  //   box.innerHTML = "";
+  //   box.appendChild(newBox);
+  //   box.appendChild(btn);
+  //   }
+  //   show();
 
 
   function usermanage(){
@@ -157,6 +156,58 @@
     document.getElementById("viewed_report_page").style.display="none"
     document.getElementById("delete_report_page").style.display="block"
   }
+  function change_viewed(report_id){
+    window.location.href="localhost:3000/report_viewed?report_id="+report_id
+  }
+
+  function change_viewed(report_id){
+    var report_status=$(report_status).val();
+    $.ajax({
+             type: 'get',
+             url: "report_viewed" ,
+             data: {
+                report_id : report_id
+
+             },
+             dataType: 'json',
+             success: function(data){
+
+             }
+        });
+  }
+
+  function change_deleted(report_id){
+    var report_status=$(report_status).val();
+    $.ajax({
+             type: 'get',
+             url: "report_deleted" ,
+             data: {
+                report_id : report_id
+
+             },
+             dataType: 'json',
+             success: function(data){
+
+             }
+        });
+  }
+
+
+  function change_destroy(report_id){
+      var report_status=$(report_status).val();
+      $.ajax({
+               type: 'get',
+               url: "report_destroy" ,
+               data: {
+                  report_id : report_id
+
+               },
+               dataType: 'json',
+               success: function(data){
+
+               }
+          });
+    }
 
   function changestatus(obj,user_id){
     var obj_val=$(obj).val();

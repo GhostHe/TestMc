@@ -1,0 +1,15 @@
+          全部的举报信息
+          <div class="report_content">
+            <% @reports.each do |report| %>
+            <div id="box">
+            <% if report.status != "deleted" %>
+              <li>举报人id:<%= link_to report.user_id %>
+              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+              ||微博内容：<%=  report.micropost.content %>
+              ||举报理由：<%=  report.content %>
+              ||<input type="button" value="已阅" onclick="change_viewed(<%= report.id %>)" />
+              </li>
+              <% end %>
+            </div>
+          <% end %>
+          </div>

@@ -20,7 +20,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def index
-    @users= User.paginate(page: params[:page])
+    @users= User.all
     @reports = Report.all
     @report = Report.find_by(params[:id])
   end
@@ -79,24 +79,33 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def report_viewed
-    @report=Report.find_by(params[:id])
-    @report.status="viewed"
-    @report.save
-    redirect_to users_url
+    report=Report.find_by_id(params[:report_id])
+    report.status=1
+    report.save
+    @reports_deleted = Report.where(status:2)
+    @reports_viewed = Report.where(status:1)
+    # render :json => {}
+    respond_to do |format|
+      format.js
+    end
   end
 
   def report_deleted
-    @report=Report.find_by(params[:id])
-    @report.status="deleted"
-    @report.save
-    redirect_to users_url
+    report=Report.find_by_id(params[:report_id])
+    report.status=2
+    report.save
+    @reports_deleted = Report.where(status:2)
+    @reports_viewed = Report.where(status:1)
+    # render :json => {}
+    respond_to do |format|
+      format.js
+    end
   end
 
   def report_destroy
-    Report.find(params[:id]).destroy
-    redirect_to users_url
+    Report.find_by_id(params[:report_id]).destroy
+    render :json => {}
   end
-
 
 
 private

@@ -1,0 +1,16 @@
+          删除的举报信息
+          <div class="report_content">
+          <% @reports_deleted.each do |report| %>
+            <% if report.status== "deleted" %>
+              <li>
+              举报人id:<%= link_to report.user_id %>
+              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+              ||微博内容：<%=  report.micropost.content %>
+              ||举报理由：<%=  report.content %>
+              ||<a href="/report_viewed?report_id=<%= report.id%>" data-remote="true">恢复删除</a>
+              //<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )">
+              ||<input type="button" value="彻底删除" onclick="change_destroy(<%= report.id %> )">
+              </li>
+            <% end %>
+          <% end %>
+        </div>
