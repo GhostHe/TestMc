@@ -39,7 +39,8 @@
               ||被举报的用户 id:<%= link_to report.micropost.user.id %>
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
-              ||<input type="button" value="已阅" onclick="change_viewed(<%= report.id %>)" />
+              ||<a href="/report_viewed?report_id=<%= report.id %>" data-remote="true">已阅</a>
+              <!-- ||<input type="button" value="已阅" onclick="change_viewed(<%= report.id %>)" /> -->
               </li>
               <% end %>
             </div>
@@ -58,7 +59,7 @@
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
               ||<a href="/report_deleted?report_id=<%= report.id%>" data-remote="true">删除</a>
-              //<input type="button" value="删除" onclick="change_deleted(<%= report.id %> )">
+              <!-- ||<input type="button" value="删除" onclick="change_deleted(<%= report.id %> )"> -->
               </li>
             <% end %>
           <% end %>
@@ -76,7 +77,7 @@
               ||微博内容：<%=  report.micropost.content %>
               ||举报理由：<%=  report.content %>
               ||<a href="/report_viewed?report_id=<%= report.id%>" data-remote="true">恢复删除</a>
-              //<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )">
+              <!-- ||<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )"> -->
               ||<input type="button" value="彻底删除" onclick="change_destroy(<%= report.id %> )">
               </li>
             <% end %>
@@ -160,37 +161,37 @@
     window.location.href="localhost:3000/report_viewed?report_id="+report_id
   }
 
-  function change_viewed(report_id){
-    var report_status=$(report_status).val();
-    $.ajax({
-             type: 'get',
-             url: "report_viewed" ,
-             data: {
-                report_id : report_id
+  // function change_viewed(report_id){
+  //   var report_status=$(report_status).val();
+  //   $.ajax({
+  //            type: 'get',
+  //            url: "report_viewed" ,
+  //            data: {
+  //               report_id : report_id
 
-             },
-             dataType: 'json',
-             success: function(data){
+  //            },
+  //            dataType: 'json',
+  //            success: function(data){
 
-             }
-        });
-  }
+  //            }
+  //       });
+  // }
 
-  function change_deleted(report_id){
-    var report_status=$(report_status).val();
-    $.ajax({
-             type: 'get',
-             url: "report_deleted" ,
-             data: {
-                report_id : report_id
+  // function change_deleted(report_id){
+  //   var report_status=$(report_status).val();
+  //   $.ajax({
+  //            type: 'get',
+  //            url: "report_deleted" ,
+  //            data: {
+  //               report_id : report_id
 
-             },
-             dataType: 'json',
-             success: function(data){
+  //            },
+  //            dataType: 'json',
+  //            success: function(data){
 
-             }
-        });
-  }
+  //            }
+  //       });
+  // }
 
 
   function change_destroy(report_id){
