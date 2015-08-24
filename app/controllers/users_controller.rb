@@ -106,7 +106,14 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
 
   def report_destroy
     Report.find_by_id(params[:report_id]).destroy
-    render :json => {}
+    p "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    @reports_deleted = Report.where(status:2)
+    @reports_viewed = Report.where(status:1)
+    @reports_all = Report.where(:status=>[0,1])
+    # render :json => {}
+    respond_to do |format|
+      format.js
+    end
   end
 
 

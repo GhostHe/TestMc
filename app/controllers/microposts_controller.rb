@@ -1,10 +1,9 @@
 class MicropostsController < ApplicationController
 
- before_action :correct_user, only: :destroy
+  before_action :correct_user, only: :destroy
 
   def create
     @comment= Comment.new
-    @allmicroposts = Micropost.all
     @micropost = current_user.microposts.build(micropost_params)
     @microposts= Micropost.where(["user_id=?",current_user.id])
      if @micropost.save
@@ -15,6 +14,18 @@ class MicropostsController < ApplicationController
     end
   end
 
+  def forwarding_micropost
+    micropost = Micropost.find_by_id(params[:micropost_id])
+    p micropost.user_id
+    @micropost = current_user.microposts.create( :user_id=>current_user.id,:content=>(params[:forwarding_content]+"//"+micropost.content))
+    micropost.parent_id = current_user.id
+    p 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', micropost.parent_id
+    micropost.save
+    @micropost.save
+    redirect_to root_url
+  end
+
+
   def destroy
     @micropost.destroy
     flash[:notice] = "删除成功！"
@@ -24,7 +35,7 @@ class MicropostsController < ApplicationController
 
   def is_goods
     good = Good.find_by_user_id_and_micropost_id(params[:user_id],params[:micropost_id])
-    micropost = Micropost.find_by_id params[:micropost_id]
+    micropost = Micropost.find_by_id(params[:micropost_id])
     p good ,params[:type]
     if params[:type]==0 or good
       good.destroy

@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get "report_deleted"=> "users#report_deleted"
   get "report_destroy"=> "users#report_destroy"
 
+  get "forwarding_micropost"=> "microposts#forwarding_micropost"
+
   resources :users do
     member do
       get :following, :followers,:reportinformation

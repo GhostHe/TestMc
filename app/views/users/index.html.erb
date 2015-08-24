@@ -13,7 +13,7 @@
         <% @users.each do |user|%>
         <li><%= render user %>
         <% if !(user==current_user) %>
-          <input type="button" value="<%= user.status=="pass" ? "禁用" : "启用"%>" onclick="changestatus(this,<%= user.id%>)">
+          <input type="button" value="<%= user.status=="pass" ? "禁用" : "启用"%>" onclick="changestatus(this,<%= user.id %>)">
           |<%= link_to 'delete',user,method: :delete %></li>
           <% end %>
         <% end %>
@@ -69,23 +69,24 @@
         <div id="delete_report_page" style="display:none;">
           删除的举报信息
           <div class="report_content">
-          <% @reports.each do |report| %>
-            <% if report.status== "deleted" %>
-              <li>
-              举报人id:<%= link_to report.user_id %>
-              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
-              ||微博内容：<%=  report.micropost.content %>
-              ||举报理由：<%=  report.content %>
-              ||<a href="/report_viewed?report_id=<%= report.id%>" data-remote="true">恢复删除</a>
-              <!-- ||<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )"> -->
-              ||<input type="button" value="彻底删除" onclick="change_destroy(<%= report.id %> )">
-              </li>
+            <% @reports.each do |report| %>
+              <% if report.status== "deleted" %>
+                <li>
+                举报人id:<%= link_to report.user_id %>
+                ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+                ||微博内容：<%=  report.micropost.content %>
+                ||举报理由：<%=  report.content %>
+                ||<a href="/report_viewed?report_id=<%= report.id %>" data-remote="true">恢复删除</a>
+                <!-- ||<input type="button" value="恢复删除" onclick="change_viewed(<%= report.id %> )"> -->
+                ||<a href="/report_destroy?report_id=<%= report.id %>" data-remote="true">彻底删除</a>
+                <!-- <input type="button" value="彻底删除" onclick="change_destroy(<%= report.id %> )"> -->
+                </li>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
-      </div>
 
-    </div>
+      </div>
 
   <% else %>
 
@@ -194,29 +195,29 @@
   // }
 
 
-  function change_destroy(report_id){
-      var report_status=$(report_status).val();
-      $.ajax({
-               type: 'get',
-               url: "report_destroy" ,
-               data: {
-                  report_id : report_id
+  // function change_destroy(report_id){
+  //     var report_status=$(report_status).val();
+  //     $.ajax({
+  //              type: 'get',
+  //              url: "report_destroy" ,
+  //              data: {
+  //                 report_id : report_id
 
-               },
-               dataType: 'json',
-               success: function(data){
+  //              },
+  //              dataType: 'json',
+  //              success: function(data){
 
-               }
-          });
-    }
+  //              }
+  //         });
+  //   }
 
   function changestatus(obj,user_id){
     var obj_val=$(obj).val();
     if (obj_val=="禁用"){
-      var type=0;
+      var type=1;
     }
     else{
-      var type=1;
+      var type=0;
     }
     $.ajax({
          type: 'get',
@@ -227,7 +228,7 @@
          } ,
          dataType: 'json',
          success: function(data){
-          if (type==0){
+          if (type==1){
               $(obj).val("启用");
               alert("已禁用");
           }
