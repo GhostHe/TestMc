@@ -1,0 +1,17 @@
+<html>
+<script type="text/javascript">
+function creat(){
+    if(document.getElementById("textid")==null){
+    var e = document.createElement("input");
+    e.id="textid";
+    e.type = "text";
+    e.value = "动态添加的text";
+    document.getElementById("div1").appendChild(e);
+  }
+}
+</script>
+<body bgcolor="#999999">
+<input type="radio" onclick="creat()"/>
+<div id="div1"></div>
+</body>
+</html>

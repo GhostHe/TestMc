@@ -7,33 +7,36 @@
     </div>
 
   <!-- 用户管理界面 -->
-    <div id="usermanage_page">
-      <h1 class="choose_word">用户列表</h1>
+  <div id="usermanage_page">
+    <h1 class="choose_word">用户列表</h1>
+    <%= will_paginate %>
       <div class="all_users">
         <% @users.each do |user|%>
         <li><%= render user %>
-        <% if !(user==current_user) %>
+          <% if !(user==current_user) %>
           <input type="button" value="<%= user.status=="pass" ? "禁用" : "启用"%>" onclick="changestatus(this,<%= user.id %>)">
-          |<%= link_to 'delete',user,method: :delete %></li>
+          |<%= link_to 'delete',user,method: :delete %>
+        </li>
           <% end %>
         <% end %>
       </div>
-    </div>
+    <%= will_paginate %>
+  </div>
 
   <!-- 举报管理界面 -->
-    <div id="reportmanage_page" style="display:none;">
-      <div class="reporttitle">
-        <input type="button" class="button" value="全部信息" onclick="not_view_report(this)">
-        <input type="button" class="button" value="已查看" onclick="viewed_report(this)">
-        <input type="button" class="button" value="已删除" onclick="delete_report(this)">
-      </div>
+  <div id="reportmanage_page" style="display:none;">
+    <div class="reporttitle">
+      <input type="button" class="button" value="全部信息" onclick="not_view_report(this)">
+      <input type="button" class="button" value="已查看" onclick="viewed_report(this)">
+      <input type="button" class="button" value="已删除" onclick="delete_report(this)">
+    </div>
       <!-- 全部 -->
-      <div class="reportlist">
-        <div id="not_view_report_page">
-          全部的举报信息
-          <div class="report_content">
-            <% @reports.each do |report| %>
-            <div id="box">
+    <div class="reportlist">
+      <div id="not_view_report_page">
+        全部的举报信息
+        <div class="report_content">
+          <% @reports.each do |report| %>
+          <div id="box">
             <% if report.status != "deleted" %>
               <li>举报人id:<%= link_to report.user_id %>
               ||被举报的用户 id:<%= link_to report.micropost.user.id %>
@@ -43,10 +46,10 @@
               <!-- ||<input type="button" value="已阅" onclick="change_viewed(<%= report.id %>)" /> -->
               </li>
               <% end %>
-            </div>
-          <% end %>
           </div>
+         <% end %>
         </div>
+      </div>
       <!-- 已查看 -->
         <div id="viewed_report_page" style="display:none;">
           已看的举报信息
@@ -85,19 +88,22 @@
             <% end %>
           </div>
         </div>
-
       </div>
-
   <% else %>
-
     <div>
+<!--       <%= form_tag search_name_users_path, :method => :get do -%>
+        <div id="search">
+         <%=text_field_tag "q"%>
+         <%= submit_tag '查找', :class => 'button' %>
+        </div>
+      <% end -%> -->
       <h1 class="choose_word">所有的用户</h1>
-
-      <div class="all_users">
-        <% @users.each do |user|%>
-        <li><%= render user %></li>
-        <% end %>
-      </div>
+        <div class="all_users">
+          <% @users.each do |user|%>
+          <li><%= render user %></li>
+          <% end %>
+        </div>
+      <%= will_paginate @users %>
     </div>
 
   <% end %>

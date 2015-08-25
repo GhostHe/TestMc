@@ -20,9 +20,8 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def index
-    @users= User.all
+    @users= User.paginate(page: params[:page], per_page:15)
     @reports = Report.all
-    @report = Report.find_by(params[:id])
   end
 
   def show
@@ -115,6 +114,16 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
       format.js
     end
   end
+
+  # def search_name_users
+  #   @local=5
+  #   @offset=0
+  #   if params[:off]!=nil
+  #     @offset=@local*params[:off].to_i
+  #   end
+  #   @count=User.count(:conditions=>["name like ?","%#{params[:q]}%"])
+  #   @users = User.find(:all, :limit=>@local, :offset=>@offset, :conditions=>["name like ?","%#{params[:q]}%"])
+  # end
 
 
 private

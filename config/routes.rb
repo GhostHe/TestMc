@@ -1,32 +1,20 @@
 Rails.application.routes.draw do
 
-
   get 'sessions/new'
-
   get 'comments/new'
-
-
-  get 'signup'=> 'users#new'
-
-  get 'login'=> 'sessions#new'
-
-  post 'login'=> 'sessions#create'
-
-  delete 'logout'=> 'sessions#destroy', :as => "logout"
-
+  get 'signup' => 'users#new'
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy', :as => "logout"
   root 'static_pages#home'
-
-  get "changestatus"=> "users#changestatus"
-
+  get "changestatus" => "users#changestatus"
   get "is_goods" => "microposts#is_goods"
-
-  get "is_reports"=> "microposts#is_reports"
-
-  get "report_viewed"=> "users#report_viewed"
-  get "report_deleted"=> "users#report_deleted"
-  get "report_destroy"=> "users#report_destroy"
-
-  get "forwarding_micropost"=> "microposts#forwarding_micropost"
+  get "is_reports" => "microposts#is_reports"
+  get "report_viewed" => "users#report_viewed"
+  get "report_deleted" => "users#report_deleted"
+  get "report_destroy" => "users#report_destroy"
+  get "forwarding_micropost" => "microposts#forwarding_micropost"
+  get "search_name_users" => "users#search_name_users"
 
   resources :users do
     member do

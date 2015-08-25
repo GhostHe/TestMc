@@ -12,7 +12,11 @@
   </div>
   <%= render 'shared/micropost_form'%>
   <h3>Microposts feed </h3>
-  <%= render 'shared/feed'%>
+    <%= will_paginate @feed_items %>
+    <div>
+      <%= render 'shared/feed'%>
+    </div>
+    <%= will_paginate @feed_items %>
 <% else %>
   <div class="home">
       <h1 class="home_h1">Home Page</h1>
