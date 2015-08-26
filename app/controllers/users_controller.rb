@@ -20,7 +20,9 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
   end
 
   def index
-    @users= User.paginate(page: params[:page], per_page:15)
+    @q = User.ransack(params[:q])
+    p @q.result(distinct: true).map(&:name)
+    @users= @q.result.paginate(page: params[:page], per_page:15)
     @reports = Report.all
   end
 

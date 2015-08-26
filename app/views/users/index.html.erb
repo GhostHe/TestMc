@@ -1,3 +1,17 @@
+<div class="ransack_search">
+  <%= search_form_for @q do |f| %>
+
+    <h3>检索:</h3>
+    <%= f.label :name,"用户名:"%>
+    <%= f.search_field :name_cont %>
+
+    <%= f.label :id,"ID:" %>
+    <%= f.search_field :id_eq %>
+
+    <%= f.submit %>
+  <% end %>
+</div>
+
 <% provide(:title,"所有用户")%>
 <div>
   <% if current_user.admin? %>
@@ -51,25 +65,25 @@
         </div>
       </div>
       <!-- 已查看 -->
-        <div id="viewed_report_page" style="display:none;">
-          已看的举报信息
-          <div class="report_content">
-            <% @reports.each do |report| %>
-            <% if report.status== "viewed" %>
-              <li>
-              举报人id:<%= link_to report.user_id %>
-              ||被举报的用户 id:<%= link_to report.micropost.user.id %>
-              ||微博内容：<%=  report.micropost.content %>
-              ||举报理由：<%=  report.content %>
-              ||<a href="/report_deleted?report_id=<%= report.id%>" data-remote="true">删除</a>
+      <div id="viewed_report_page" style="display:none;">
+        已看的举报信息
+        <div class="report_content">
+           <% @reports.each do |report| %>
+             <% if report.status== "viewed" %>
+                <li>
+                举报人id:<%= link_to report.user_id %>
+                ||被举报的用户 id:<%= link_to report.micropost.user.id %>
+                ||微博内容：<%=  report.micropost.content %>
+                ||举报理由：<%=  report.content %>
+                ||<a href="/report_deleted?report_id=<%= report.id%>" data-remote="true">删除</a>
               <!-- ||<input type="button" value="删除" onclick="change_deleted(<%= report.id %> )"> -->
               </li>
             <% end %>
           <% end %>
-          </div>
         </div>
+      </div>
       <!-- 已删除 -->
-        <div id="delete_report_page" style="display:none;">
+       <div id="delete_report_page" style="display:none;">
           删除的举报信息
           <div class="report_content">
             <% @reports.each do |report| %>

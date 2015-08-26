@@ -32,10 +32,9 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog'
-
 gem 'faker', '1.5.0'
-
 gem 'spreadsheet'
+gem 'ransack'
 
 
 # Use ActiveModel has_secure_password
