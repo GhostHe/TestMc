@@ -3,10 +3,10 @@
 
     <h3>检索:</h3>
     <%= f.label :name,"用户名:"%>
-    <%= f.search_field :name_cont %>
+    <%= f.search_field :name_cont %> <!-- cont: 模糊查询 -->
 
-    <%= f.label :id,"ID:" %>
-    <%= f.search_field :id_eq %>
+   <!--  <%= f.label :id,"ID:" %>
+    <%= f.search_field :id_eq %> --> <!-- eq: 精准查询 -->
 
     <%= f.submit %>
   <% end %>
