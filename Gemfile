@@ -35,6 +35,7 @@ gem 'fog'
 gem 'faker', '1.5.0'
 gem 'spreadsheet'
 gem 'ransack'
+gem "paperclip", "~> 4.3"
 
 
 # Use ActiveModel has_secure_password

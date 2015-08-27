@@ -14,16 +14,25 @@ class MicropostsController < ApplicationController
     end
   end
 
-  def forwarding_micropost
+  def forwarding_micropost            # 需要修改
+    # micropost = Micropost.find_by_id(params[:micropost_id])
+    # p micropost.user_id
+    # @micropost = current_user.microposts.create( :user_id=>current_user.id,:content=>(params[:forwarding_content]+"//"+micropost.content))
+    # micropost.parent_id = current_user.id
+    # p 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', micropost.parent_id
+    # micropost.save
+    # render :json => {}
+
     micropost = Micropost.find_by_id(params[:micropost_id])
-    p micropost.user_id
-    @micropost = current_user.microposts.create( :user_id=>current_user.id,:content=>(params[:forwarding_content]+"//"+micropost.content))
-    micropost.parent_id = current_user.id
-    p 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', micropost.parent_id
-    micropost.save
+    @micropost = current_user.microposts.create( :content => (params[:forwarding_content]))
+    @micropost.parent_id = micropost.id
     @micropost.save
-    redirect_to root_url
+
+    render :json  => {}
   end
+
+
+
 
 
   def destroy
@@ -69,7 +78,7 @@ class MicropostsController < ApplicationController
 
   private
     def micropost_params
-      params.require(:micropost).permit( :user_id,:content,:picture)
+      params.require(:micropost).permit( :user_id,:content,:picture,:parent_id)
     end
 
     def correct_user

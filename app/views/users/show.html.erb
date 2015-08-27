@@ -11,6 +11,7 @@
 
 <div id="micropost_comment_middle">
     <h1 class="choose_word">发布的微博</h1>
+    <%= will_paginate @microposts %>
     <% @microposts.each do |micropost| %>
 
     <div class="micropost_comment_in">
@@ -46,6 +47,7 @@
       </div>
     </div>
     <% end %>
+    <%= will_paginate @microposts %>
   </div>
 
   <script type="text/javascript">

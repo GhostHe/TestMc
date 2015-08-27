@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
     rejected: 1,
   }
 
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
+
   attr_accessor :remember_token
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -33,10 +37,10 @@ class User < ActiveRecord::Base
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
-  has_many :parent_user, class_name: "Micropost",
-                         foreign_key: "parent_id"
+  # has_many :parent_user, class_name: "Micropost",
+  #                        foreign_key: "parent_id"
 
-  has_many :parent ,through: :parent_user
+  # has_many :parent ,through: :parent_user  # 错误的 ！！！
 
   def feed
     following_ids="SELECT followed_id FROM relationships

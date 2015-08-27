@@ -4,6 +4,7 @@ include UsersHelper
 before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
                                         :following, :followers]
 
+
   def new
     @user = User.new
   end
@@ -28,7 +29,7 @@ before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
 
   def show
     @user= User.find(params[:id])
-    @microposts= @user.microposts.all
+    @microposts= @user.microposts.paginate(page: params[:page],per_page:25)
     @comment= Comment.new
   end
 
@@ -132,7 +133,7 @@ private
 
   def user_params
     params.require(:user).permit(:name,:email,:password,
-                                 :password_confirmation)
+                                 :password_confirmation,:avatar)
   end
 
 end
