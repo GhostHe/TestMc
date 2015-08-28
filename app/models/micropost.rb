@@ -7,7 +7,7 @@ class Micropost < ActiveRecord::Base
   # belongs_to :parent, class_name:"User", foreign_key:"parent_id" # 错误的 ！！！
   has_many :comments
   has_many :goods
-  has_many :reports
+  has_many :reports ,dependent: :destroy
   mount_uploader :picture, PictureUploader
 
 

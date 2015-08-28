@@ -1,60 +1,68 @@
-<div>
+
+<div style="margin-top: 12px; border-top:2px solid #ccc">
   <li>
-    <%= link_to gravatar_for(micropost.user, size: 55), micropost.user %>
-    <%= link_to micropost.user.name, micropost.user %>
-    <%= micropost.content %>
+    <div class="micropostseed" style="margin-top: 2px">
 
-    <% if micropost.parent %>
-      <% c = micropost.parent %>
-        <% while c.parent %>
-          <%= link_to "//@"+c.user.name, micropost.user %>
-          <%= c.content %>
-          <% c= c.parent %>
+        <p class="span1"><%= link_to gravatar_for(micropost.user, size: 45), micropost.user %></p>
+        <p class="span2">
+          <span><%= link_to micropost.user.name, micropost.user %></span><br>
+          <span>
+            <%= micropost.content %>
+              <% if micropost.parent %>
+                <% c = micropost.parent %>
+                <% while c.parent %>
+                  <%= link_to "//@"+c.user.name, micropost.user %>
+                  <%= c.content %>
+                  <% c= c.parent %>
+                <% end %>
+                <%= link_to "//@"+c.user.name, micropost.user %>
+                <%= c.content %><br>
+                <span style="text-align: center;"><%= image_tag c.picture.url if c.picture? %></span>
+              <% end %>
+              <br>
+              <span><%= image_tag micropost.picture.url if micropost.picture? %></span>
+          </span>
+        </p>
 
-        <% end %>
+    </div>
 
-          <%= link_to "//@"+c.user.name, micropost.user %>
-          <%= c.content %>
-          <%= image_tag c.picture.url if c.picture? %>
-
-    <% end %>
-    <%= image_tag micropost.picture.url if micropost.picture? %>
-
-
-    <div>Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+    <div style="margin-left: 20px;">
+      Posted <%= time_ago_in_words(micropost.created_at) %> ago.
       <% if current_user?(micropost.user) %>
-        <%= link_to "delete",micropost, method: :delete,
-                                        data: { confirm: "You sure?"} %>
+        <%= link_to "delete",micropost, method: :delete,data: { confirm: "You sure?"} %>
       <% end %>
     </div>
-    <div>
-        <p class="is_goods_count" style="float:left">(<%= micropost.is_good.to_i %>)</p>
-        <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this,<%= current_user.id%>,<%= micropost.id%>)" style="float:left" >
+
+    <div style="margin-left: 20px;">
+      <p class="is_goods_count" style="float:left">(<%= micropost.is_good.to_i %>)</p>
+      <input type="button" class="is_good" value="<%=micropost.goods.map(&:user_id).include?(current_user.id) ? '取消赞' : '赞'%>" onclick="is_good(this,<%= current_user.id%>,<%= micropost.id%>)" style="float:left" >
       <input type="button" class="is_report" value="<%=micropost.reports.map(&:user_id).include?(current_user.id) ? '取消举报' : '举报'%>" onclick="is_report(this,<%= current_user.id %>,<%= micropost.id %>)">
       <input type="button" value="转发微博" onclick="forwarding_micropost(<%= micropost.id %>,<%= micropost.parent_id.to_i %>)">
     </div>
+
     <div>
       <%= form_for @comment do |f| %>
         <%= f.hidden_field :user_id,:value=>current_user.id %>
         <%= f.hidden_field :micropost_id,:value=>micropost.id %>
-        <%= f.text_area :content,:placeholder=>"输入你的评论",
-                        :class=>"comment_input" %>
+        <%= f.text_area :content,:placeholder=>"输入你的评论",:class=>"comment_input" %>
         <%= f.submit "评论" %>
       <% end %>
     </div>
 
-    <div>
+    <div class="homecomment">
       <% micropost.comments.each do |comment| %>
-      <li>
-        <%= link_to gravatar_for(comment.user, size: 40), comment.user %>
-        <%= link_to comment.user.name, micropost.user%>
-        <%= comment.content if comment %>
-        // Posted <%= time_ago_in_words(comment.created_at) %> ago.
-        <% if current_user?(comment.user)%>
-          <%= link_to "delete",comment, method: :delete,
-                                        data: { confirm: "You sure?"} %>
-        <% end %>
-      </li>
+        <div class="commentline" style="border-top: 1px solid #ccc;">
+        <p class="span3"><%= link_to gravatar_for(comment.user, size: 38), comment.user %></p>
+        <p class="span4">
+          <%= link_to comment.user.name, micropost.user%><br>
+          <%= comment.content if comment %>||
+          Posted <%= time_ago_in_words(comment.created_at) %> ago.
+          <% if current_user?(comment.user)%>
+            <%= link_to "delete",comment, method: :delete, data: { confirm: "You sure?"} %>
+        </p>
+        </div>
+          <% end %>
+
       <% end %>
     </div>
   </li>

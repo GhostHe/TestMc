@@ -1,3 +1,14 @@
+*{
+  padding:0;
+  margin:0;
+  text-decoration: none;
+  list-style: none;
+}
+a:hover{color:#000;}
+a:active{color:#0072E3;}
+a:visited{color:#0072E3;}
+a:hover{color:#00AEAE;}
+
 .home {
   height: 500px;
   margin-left: auto;
@@ -23,15 +34,20 @@ header{
   height: 60px;
   background-color: #696;
 }
+header a:visited{
+  color:#000;
+}
 
 header ul{
+  font-size: 22px;
+  margin-top: 11px;
   list-style: none;
   float: right;
 }
 
 header ul li{
   float: left;
-  margin-right: 30px;
+  margin-right: 25px;
 }
 
 footer {
@@ -73,7 +89,6 @@ footer ul li {
 }
 
 .micropost_input {
-  margin: 0px auto;
   width: 650px;
   list-style-type: none;
 }
@@ -164,7 +179,7 @@ footer ul li {
 }
 
 /*时间戳*/
-span {
+.micropost_word span {
   font-size: 10px;
 }
 
@@ -178,3 +193,46 @@ span {
 .flash {
   margin-left: 50px;
 }
+
+li{list-style-type:none;}
+ul.pagination li {
+  list-style-type:none;
+  float: left;
+  margin: 10px;
+}
+div.pagination{height: 50px;}
+
+/*页面居中*/
+div.mainview{
+  align-content: center;
+  margin: auto;
+  width: 1000px;
+}
+/* 主页 Micropost Seed*/
+.micropostseed {
+  width: 1000px;
+}
+
+.span1 {
+  float: left;
+}
+.span2 {
+  width: 940px;
+  margin-left: 40px;
+}
+
+
+.homecomment {
+  width: 800px;
+}
+.commentline {
+  width: 500px;
+  border-top: 1px solid #ccc;
+  margin: 2px 0px 0px 13px;
+}
+.span3 {
+  float: left;
+  margin-top: 2px;
+}
+
+
